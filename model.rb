@@ -1,18 +1,27 @@
-require 'excon'
-require 'pry'
-require 'json'
-require 'datamapper'
+require './setup'
 
+class Report
+  attr_accessor :data, :budget
 
-class FinReport
   def initialize budget = nil
     budget ||= 3500
-    @monthly_budget = budget
+    @budget = budget
+    @data = plaid
+  end
+
+  def plaid
+    PlaidObject.get_data
   end
 end
 
-class Plaid
+class PlaidObject
   attr_accessor :client_id, :secret, :access_token, :data
+
+  def self.get_data
+    plaid = PlaidObject.new
+    plaid.request_data
+    plaid.data
+  end
 
   def initialize
     @client_id =  ENV['PLAID_CLIENT_ID']
