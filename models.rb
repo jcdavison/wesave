@@ -1,16 +1,33 @@
 require './setup'
 
-class Report
+class Balance
+  include DataMapper::Resource
   attr_accessor :data, :budget
+
+  property :id, Serial
+  property :account_id, String, :required => true
+  property :balance, Float, :required => true
+  property :created_at,  DateTime, :required => true
 
   def initialize budget = nil
     budget ||= 3500
     @budget = budget
     @data = plaid
+    @checking_account = select_checking
   end
 
   def plaid
     PlaidObject.get_data
+  end
+
+  def set_attributes
+    self.account_id = @checking_account["_id"]
+    self.balance = @checking_account["balance"]["current"]
+    self.created_at = Time.now
+  end
+
+  def select_checking 
+    data["accounts"].select {|account| account["meta"]["name"].match /CHECKING/ }.first
   end
 end
 
@@ -43,3 +60,6 @@ class Sms
     @api = "https://api.twilio.com/2010-04-01"
   end
 end
+
+DataMapper.finalize
+DataMapper.auto_upgrade!

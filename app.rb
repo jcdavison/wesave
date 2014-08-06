@@ -1,2 +1,2 @@
 require './setup'
-require './model'
+require './models'
