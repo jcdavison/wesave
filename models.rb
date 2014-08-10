@@ -1,5 +1,17 @@
 require './config/setup'
 
+BUDGET = ENV["MONTHLY_BUDGET"]
+
+class Expense
+  attr_accessor :day, :value, :description
+
+  def initialize
+    @day = nil
+    @value = nil
+    @description = nil
+  end
+end
+
 class Balance
   include DataMapper::Resource
   attr_accessor :data, :budget
@@ -9,9 +21,8 @@ class Balance
   property :balance, Float, :required => true
   property :created_at,  DateTime, :required => true
 
-  def initialize budget = nil
-    budget ||= 3500
-    @budget = budget
+  def initialize
+    @budget = BUDGET
     @data = plaid
     @checking_account = select_checking
   end
