@@ -29,6 +29,12 @@ class Balance
   def select_checking 
     data["accounts"].select {|account| account["meta"]["name"].match /CHECKING/ }.first
   end
+
+  def self.generate
+    balance = Balance.new
+    balance.set_attributes
+    balance.save
+  end
 end
 
 class PlaidObject
