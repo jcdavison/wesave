@@ -1,2 +1,4 @@
 .env
 *.db
+expense.txt
+.ds_store

@@ -1,6 +1,6 @@
 desc 'Start IRB with application environment loaded'
 task :console do
-  exec 'irb -r./config/setup -r./models.rb'
+  exec 'irb -r./config/setup -r./models.rb -r ./app.rb'
 end
 
 task :environment do

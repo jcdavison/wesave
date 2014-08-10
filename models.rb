@@ -1,14 +1,25 @@
 require './config/setup'
 
-BUDGET = ENV["MONTHLY_BUDGET"]
+BUDGET = ENV["MONTHLY_BUDGET"].to_i
 
-class Expense
-  attr_accessor :day, :value, :description
+class Transaction
+  include DataMapper::Resource
 
-  def initialize
-    @day = nil
-    @value = nil
-    @description = nil
+  property :id, Serial
+  property :day, Integer, :required => true
+  property :value, Float, :required => true
+  property :description, String, :required => true
+
+  def self.expenses_to_date
+    Transaction.all(:day.lte => Time.now.day, :value.lt => 0)
+  end
+
+  def self.expenses_pending
+    Transaction.all(:day.gt => Time.now.day, :value.lt => 0)
+  end
+
+  def self.credits_to_date
+    Transaction.all(:day.lte => Time.now.day, :value.gt => 0)
   end
 end
 
@@ -18,7 +29,7 @@ class Balance
 
   property :id, Serial
   property :account_id, String, :required => true
-  property :balance, Float, :required => true
+  property :value, Float, :required => true
   property :created_at,  DateTime, :required => true
 
   def initialize
@@ -33,7 +44,7 @@ class Balance
 
   def set_attributes
     self.account_id = @checking_account["_id"]
-    self.balance = @checking_account["balance"]["current"]
+    self.value = @checking_account["balance"]["current"]
     self.created_at = Time.now
   end
 
