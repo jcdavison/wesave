@@ -1,4 +1,4 @@
-require './setup'
+require './config/setup'
 require './models'
 
 SECRET_VOLCANO_TOKEN = ENV["SECRET_VOLCANO_TOKEN"]

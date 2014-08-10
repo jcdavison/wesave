@@ -1,4 +1,4 @@
-require './setup'
+require './config/setup'
 
 class Balance
   include DataMapper::Resource
