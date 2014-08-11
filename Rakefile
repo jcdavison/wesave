@@ -12,3 +12,8 @@ desc 'Create a Balance record.'
 task :balance => :environment do
   Balance.generate
 end
+
+desc 'Send Love Note'
+task :balance => :environment do
+  Sms.send! FinancialLoveNote.create current_budget_status
+end

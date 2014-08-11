@@ -46,7 +46,8 @@ end
 
 get("/balance") do
   if params[:token]  && params[:token] == SECRET_VOLCANO_TOKEN
-    Balance.last.to_json
+    Sms.send! FinancialLoveNote.create current_budget_status
+    "sms in bound, stand by to stand by"
   else
     "you are not authorized"
   end

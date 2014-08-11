@@ -7,6 +7,7 @@ gem 'pry'
 gem 'json'
 gem 'data_mapper'
 gem 'rake', '~> 10.3.2'
+gem 'twilio-ruby', '~> 3.11'
 
 group :development do
   gem 'sqlite3'
