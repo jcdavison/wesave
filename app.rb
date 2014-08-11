@@ -4,7 +4,7 @@ require './models'
 SECRET_VOLCANO_TOKEN = ENV["SECRET_VOLCANO_TOKEN"]
 
 def budget
-  Transaction.all_credits.map(&:value).reduce(:+) + Transaction.all_expenses.map(&:value).reduce(:+)
+  Transaction.all_credits.map(&:value).reduce(:+) + Transaction.all(description: "Savings").map(&:value).reduce(:+)
 end
 
 def projected_current_balance
