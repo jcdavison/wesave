@@ -9,11 +9,15 @@ class Transaction
   property :description, String, :required => true
 
   def self.expenses_to_date
-    Transaction.all(:day.lte => Time.now.day, :value.lt => 0)
+    Transaction.all(:day.lte => Time.now.day, :value.lt => 0).map(&:value).reduce(:+)
+  end
+
+  def self.salary
+    Transaction.first(:description => "Salary").value
   end
 
   def self.all_expenses
-    Transaction.all(:value.lt => 0)
+    Transaction.all(:value.lt => 0).map(&:value).reduce(:+)
   end
 
   def self.all_credits

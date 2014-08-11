@@ -4,12 +4,23 @@ require './models'
 SECRET_VOLCANO_TOKEN = ENV["SECRET_VOLCANO_TOKEN"]
 
 def budget
-  Transaction.all_credits.map(&:value).reduce(:+) + Transaction.all(description: "Savings").map(&:value).reduce(:+)
+  Transaction.salary
+end
+
+def savings
+  Transaction.all(description: "Savings").map(&:value).reduce(:+)
+end
+
+def discretionary_cash
+  budget + Transaction.all_expenses
 end
 
 def projected_current_balance
-  projected_current_expenses = Transaction.expenses_to_date.map(&:value).reduce(:+) + allowance_to_date
   (budget + projected_current_expenses).round(2)
+end
+
+def projected_current_expenses
+  Transaction.expenses_to_date + daily_discretionary_to_date
 end
 
 def actual_current_balance
@@ -22,19 +33,15 @@ end
 
 def days_required_to_balance discount = nil
   discount ||= 0.5
-  (current_budget_status / (daily_allowance * discount)).round(2)
+  (current_budget_status / (daily_discretionary * discount)).round(2)
 end
 
-def allowance_to_date
-  daily_allowance * Time.now.day
+def daily_discretionary_to_date
+  daily_discretionary * Time.now.day
 end
 
-def total_expenses
-  Transaction.all_expenses.map(&:value).reduce(:+)
-end
-
-def daily_allowance
-  ((budget + total_expenses)/30).round(2)
+def daily_discretionary
+  (discretionary_cash/30).round(2)
 end
 
 get("/balance") do
