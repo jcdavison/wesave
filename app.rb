@@ -5,7 +5,7 @@ SECRET_VOLCANO_TOKEN = ENV["SECRET_VOLCANO_TOKEN"]
 
 def projected_current_balance
   projected_current_expenses = Transaction.expenses_to_date.map(&:value).reduce(:+) + allowance_to_date
-  BUDGET + projected_current_expenses
+  (BUDGET + projected_current_expenses).round(2)
 end
 
 def actual_current_balance
@@ -13,7 +13,7 @@ def actual_current_balance
 end
 
 def current_budget_status
-  projected_current_balance - actual_current_balance
+  (actual_current_balance - projected_current_balance).round(2)
 end
 
 def days_required_to_balance discount = nil
