@@ -29,7 +29,7 @@ class Balance
 
   property :id, Serial
   property :account_id, String, :required => true
-  property :value, Float, :required => true
+  property :value, Float, :required => false
   property :created_at,  DateTime, :required => true
 
   def initialize
