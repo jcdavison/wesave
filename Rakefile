@@ -14,6 +14,6 @@ task :balance => :environment do
 end
 
 desc 'Send Love Note'
-task :balance => :environment do
+task :lovenote => :environment do
   Sms.send! FinancialLoveNote.create current_budget_status
 end
