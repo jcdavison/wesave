@@ -104,8 +104,7 @@ class Sms
   def self.send! message
     sms = Sms.new
     payload = {from: sms.from, to: sms.to, body: message}
-    response = sms.client.account.messages.create payload
-    p response.status
+    sms.client.account.messages.create payload
   end
 end
 
