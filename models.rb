@@ -110,7 +110,7 @@ end
 
 class FinancialLoveNote
   def self.create balance
-      "Congratulations, Your current balance is #{balance}, good luck with that."
+      "Congratulations, The balance of your budget is #{balance}, Spend Wisely."
   end
 end
 
