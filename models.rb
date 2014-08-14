@@ -109,8 +109,8 @@ class Sms
 end
 
 class FinancialLoveNote
-  def self.create balance
-      "Congratulations, The balance of your budget is #{balance}, Spend Wisely."
+  def self.create balance, daily_budget
+      "Congratulations, The balance of your budget is #{balance}, you have #{daily_budget} for the day, Spend Wisely."
   end
 end
 
