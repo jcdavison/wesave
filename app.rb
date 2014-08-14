@@ -31,13 +31,8 @@ def current_budget_status
   (actual_current_balance - projected_current_balance).round(2)
 end
 
-def days_required_to_balance discount = nil
-  discount ||= 0.5
-  (current_budget_status / (daily_discretionary * discount)).round(2)
-end
-
 def daily_discretionary_to_date
-  daily_discretionary * Time.now.day
+  - daily_discretionary * Time.now.day
 end
 
 def daily_discretionary
